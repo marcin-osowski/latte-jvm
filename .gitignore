@@ -1,3 +1,4 @@
+*.o
 
 # BNF converter stuff
 Absyn.C
@@ -12,4 +13,12 @@ Printer.H
 Skeleton.C
 Skeleton.H
 Test.C
+Latte.aux
+Latte.dvi
+Latte.log
+Latte.ps
+Lexer.C
+Parser.C
+testLatte
+
 

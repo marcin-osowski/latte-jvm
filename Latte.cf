@@ -2,65 +2,67 @@
 
 entrypoints Program ;
 
-Program.   Program ::= [TopDef] ;
+TProgram.   Program ::= [TopDef] ;
 
-FnDef.	   TopDef ::= Type Ident "(" [Arg] ")" Block ;
+TFnDef.	   TopDef ::= Type Ident "(" [Arg] ")" Block ;
 
 separator nonempty TopDef "" ;
 
-Arg. 	   Arg ::= Type Ident;
+TArg. 	   Arg ::= Type Ident;
 
 separator  Arg "," ;
 
 -- statements ----------------------------------------------
 
-Block.     Block ::= "{" [Stmt] "}" ;
+coercions  Stmt 2 ;
+
+SBlock.     Block ::= "{" [Stmt] "}" ;
 
 separator  Stmt "" ;
 
-Empty.     Stmt ::= ";" ;
+SEmpty.     Stmt ::= ";" ;
 
-BStmt.     Stmt ::= Block ;
+SBStmt.     Stmt ::= Block ;
 
-Decl.      Stmt ::= Type [Item] ";" ;
+SDecl.      Stmt ::= Type [Item] ";" ;
 
-NoInit.    Item ::= Ident ; 
+SNoInit.    Item ::= Ident ; 
 
-Init.      Item ::= Ident "=" Expr ;
+SInit.      Item ::= Ident "=" Expr ;
 
 separator nonempty Item "," ;
 
-Ass.       Stmt ::= Ident "=" Expr  ";" ;
+SAss.       Stmt ::= Ident "=" Expr  ";" ;
 
-Incr.      Stmt ::= Ident "++"  ";" ;
+SIncr.      Stmt ::= Ident "++"  ";" ;
 
-Decr.      Stmt ::= Ident "--"  ";" ;
+SDecr.      Stmt ::= Ident "--"  ";" ;
 
-Ret.       Stmt ::= "return" Expr ";" ;
+SRet.       Stmt ::= "return" Expr ";" ;
 
-VRet.      Stmt ::= "return" ";" ;
+SVRet.      Stmt ::= "return" ";" ;
 
-Cond.      Stmt ::= "if" "(" Expr ")" Stmt  ;
+SCond.      Stmt ::= "if" "(" Expr ")" Stmt ;
 
-CondElse.  Stmt ::= "if" "(" Expr ")" Stmt "else" Stmt  ;
+SCondElse.  Stmt ::= "if" "(" Expr ")" Stmt "else" Stmt ;
 
-While.     Stmt ::= "while" "(" Expr ")" Stmt ;
+SWhile.     Stmt ::= "while" "(" Expr ")" Stmt ;
 
-SExp.      Stmt ::= Expr  ";" ;
+SSExp.      Stmt ::= Expr  ";" ;
 
 -- Types ---------------------------------------------------
 
-Int.       Type ::= "int" ;
+TInt.       Type ::= "int" ;
 
-Str.       Type ::= "string" ;
+TStr.       Type ::= "string" ;
 
-Bool.      Type ::= "boolean" ;
+TBool.      Type ::= "boolean" ;
 
-Void.      Type ::= "void" ;
+TVoid.      Type ::= "void" ;
 
-internal   Fun. Type ::= Type "(" [Type] ")" ;
-
-separator  Type "," ;
+--Temporarly commented out:
+-- internal TFun. Type ::= Type "(" [Type] ")" ;
+-- separator  Type "," ;
 
 -- Expressions ---------------------------------------------
 
@@ -96,27 +98,27 @@ separator  Expr "," ;
 
 -- operators -----------------------------------------------
 
-Plus.      AddOp ::= "+" ;
+OPlus.      AddOp ::= "+" ;
 
-Minus.     AddOp ::= "-" ;
+OMinus.     AddOp ::= "-" ;
 
-Times.     MulOp ::= "*" ;
+OTimes.     MulOp ::= "*" ;
 
-Div.       MulOp ::= "/" ;
+ODiv.       MulOp ::= "/" ;
 
-Mod.       MulOp ::= "%" ;
+OMod.       MulOp ::= "%" ;
 
-LTH.       RelOp ::= "<" ;
+OLTH.       RelOp ::= "<" ;
 
-LE.        RelOp ::= "<=" ;
+OLE.        RelOp ::= "<=" ;
 
-GTH.       RelOp ::= ">" ;
+OGTH.       RelOp ::= ">" ;
 
-GE.        RelOp ::= ">=" ;
+OGE.        RelOp ::= ">=" ;
 
-EQU.       RelOp ::= "==" ;
+OEQU.       RelOp ::= "==" ;
 
-NE.        RelOp ::= "!=" ;
+ONE.        RelOp ::= "!=" ;
 
 -- comments ------------------------------------------------
 
@@ -125,4 +127,5 @@ comment    "#" ;
 comment    "//" ;
 
 comment    "/*" "*/" ;
+
 
