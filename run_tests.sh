@@ -1,5 +1,9 @@
 #!/bin/bash
 
+set -e
+
+make
+
 echo ">>GOOD<<"
 echo
 for i in lattests/good/core0*.lat; do
@@ -13,5 +17,11 @@ echo ">>BAD<<"
 echo
 for i in lattests/bad/bad0*.lat; do
     echo $i
-    ./latc $i
+    if ./latc $i > /dev/null; then
+      false
+    fi
 done
+
+
+echo
+echo "All tests OK"

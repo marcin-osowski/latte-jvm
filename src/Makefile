@@ -20,3 +20,4 @@ clean:
 	rm -f $(OUT)
 	rm -f *.o
 	rm -f *~
+	make -C parser clean
