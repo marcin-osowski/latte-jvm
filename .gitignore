@@ -1,24 +1,5 @@
-*.o
+.*.swp
 
-# BNF converter stuff
-Absyn.C
-Absyn.H
-Latte.l
-Latte.tex
-Latte.y
-Makefile
-Parser.H
-Printer.C
-Printer.H
-Skeleton.C
-Skeleton.H
-Test.C
-Latte.aux
-Latte.dvi
-Latte.log
-Latte.ps
-Lexer.C
-Parser.C
-testLatte
+*.o
 
 

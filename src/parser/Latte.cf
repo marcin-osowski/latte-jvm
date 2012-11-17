@@ -2,21 +2,19 @@
 
 entrypoints Program ;
 
-TProgram.   Program ::= [TopDef] ;
+PProg.     Program ::= [TopDef] ;
 
-TFnDef.	   TopDef ::= Type Ident "(" [Arg] ")" Block ;
+TFnDef.    TopDef ::= Type Ident "(" [Arg] ")" Block ;
 
 separator nonempty TopDef "" ;
 
-TArg. 	   Arg ::= Type Ident;
+AArg.      Arg ::= Type Ident;
 
 separator  Arg "," ;
 
 -- statements ----------------------------------------------
 
-coercions  Stmt 2 ;
-
-SBlock.     Block ::= "{" [Stmt] "}" ;
+BBlock.     Block ::= "{" [Stmt] "}" ;
 
 separator  Stmt "" ;
 
@@ -26,9 +24,9 @@ SBStmt.     Stmt ::= Block ;
 
 SDecl.      Stmt ::= Type [Item] ";" ;
 
-SNoInit.    Item ::= Ident ; 
+INoInit.    Item ::= Ident ; 
 
-SInit.      Item ::= Ident "=" Expr ;
+IInit.      Item ::= Ident "=" Expr ;
 
 separator nonempty Item "," ;
 
@@ -61,8 +59,8 @@ TBool.      Type ::= "boolean" ;
 TVoid.      Type ::= "void" ;
 
 --Temporarly commented out:
--- internal TFun. Type ::= Type "(" [Type] ")" ;
--- separator  Type "," ;
+--internal TFun. Type ::= Type "(" [Type] ")" ;
+--separator  Type "," ;
 
 -- Expressions ---------------------------------------------
 
@@ -78,9 +76,9 @@ EApp.      Expr6 ::= Ident "(" [Expr] ")" ;
 
 EString.   Expr6 ::= String ;
 
-Neg.       Expr5 ::= "-" Expr6 ;
+ENeg.      Expr5 ::= "-" Expr6 ;
 
-Not.       Expr5 ::= "!" Expr6 ;
+ENot.      Expr5 ::= "!" Expr6 ;
 
 EMul.      Expr4 ::= Expr4 MulOp Expr5 ;
 
@@ -98,27 +96,27 @@ separator  Expr "," ;
 
 -- operators -----------------------------------------------
 
-OPlus.      AddOp ::= "+" ;
+OPlus.     AddOp ::= "+" ;
 
-OMinus.     AddOp ::= "-" ;
+OMinus.    AddOp ::= "-" ;
 
-OTimes.     MulOp ::= "*" ;
+OTimes.    MulOp ::= "*" ;
 
-ODiv.       MulOp ::= "/" ;
+ODiv.      MulOp ::= "/" ;
 
-OMod.       MulOp ::= "%" ;
+OMod.      MulOp ::= "%" ;
 
-OLTH.       RelOp ::= "<" ;
+OLTH.      RelOp ::= "<" ;
 
-OLE.        RelOp ::= "<=" ;
+OLE.       RelOp ::= "<=" ;
 
-OGTH.       RelOp ::= ">" ;
+OGTH.      RelOp ::= ">" ;
 
-OGE.        RelOp ::= ">=" ;
+OGE.       RelOp ::= ">=" ;
 
-OEQU.       RelOp ::= "==" ;
+OEQU.      RelOp ::= "==" ;
 
-ONE.        RelOp ::= "!=" ;
+ONE.       RelOp ::= "!=" ;
 
 -- comments ------------------------------------------------
 
@@ -127,5 +125,6 @@ comment    "#" ;
 comment    "//" ;
 
 comment    "/*" "*/" ;
+
 
 

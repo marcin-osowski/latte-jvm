@@ -1,0 +1,3 @@
+file Absyn.H
+class Visitor
+replace " = 0;" with "{ throw NotImplementedException(); )"
