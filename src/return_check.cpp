@@ -29,7 +29,7 @@ void ReturnCheck::visitBBlock(BBlock *bblock)
   bblock->liststmt_->accept(this);
 }
 
-void ReturnCheck::visitSEmpty(SEmpty *sempty)
+void ReturnCheck::visitSEmpty(SEmpty *sempty __attribute__((__unused__)))
 {
 }
 
@@ -38,28 +38,28 @@ void ReturnCheck::visitSBStmt(SBStmt *sbstmt)
   sbstmt->block_->accept(this);
 }
 
-void ReturnCheck::visitSDecl(SDecl *sdecl)
+void ReturnCheck::visitSDecl(SDecl *sdecl __attribute__((__unused__)))
 {
 }
 
-void ReturnCheck::visitSAss(SAss *sass)
+void ReturnCheck::visitSAss(SAss *sass __attribute__((__unused__)))
 {
 }
 
-void ReturnCheck::visitSIncr(SIncr *sincr)
+void ReturnCheck::visitSIncr(SIncr *sincr __attribute__((__unused__)))
 {
 }
 
-void ReturnCheck::visitSDecr(SDecr *sdecr)
+void ReturnCheck::visitSDecr(SDecr *sdecr __attribute__((__unused__)))
 {
 }
 
-void ReturnCheck::visitSRet(SRet *sret)
+void ReturnCheck::visitSRet(SRet *sret __attribute__((__unused__)))
 {
   reachable = false;
 }
 
-void ReturnCheck::visitSVRet(SVRet *svret)
+void ReturnCheck::visitSVRet(SVRet *svret __attribute__((__unused__)))
 {
   reachable = false;
 }
@@ -98,7 +98,7 @@ void ReturnCheck::visitSWhile(SWhile *swhile)
     reachable = false;
 }
 
-void ReturnCheck::visitSSExp(SSExp *ssexp)
+void ReturnCheck::visitSSExp(SSExp *ssexp __attribute__((__unused__)))
 {
 }
 

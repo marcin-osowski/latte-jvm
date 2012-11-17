@@ -90,75 +90,75 @@ class Visitor
 {
 public:
   virtual ~Visitor() {}
-  virtual void visitProgram(Program *p){ throw NotImplementedException(); }
-  virtual void visitTopDef(TopDef *p){ throw NotImplementedException(); }
-  virtual void visitArg(Arg *p){ throw NotImplementedException(); }
-  virtual void visitBlock(Block *p){ throw NotImplementedException(); }
-  virtual void visitStmt(Stmt *p){ throw NotImplementedException(); }
-  virtual void visitItem(Item *p){ throw NotImplementedException(); }
-  virtual void visitType(Type *p){ throw NotImplementedException(); }
-  virtual void visitExpr(Expr *p){ throw NotImplementedException(); }
-  virtual void visitAddOp(AddOp *p){ throw NotImplementedException(); }
-  virtual void visitMulOp(MulOp *p){ throw NotImplementedException(); }
-  virtual void visitRelOp(RelOp *p){ throw NotImplementedException(); }
-  virtual void visitPProg(PProg *p) = 0;
-  virtual void visitTFnDef(TFnDef *p){ throw NotImplementedException(); }
-  virtual void visitAArg(AArg *p){ throw NotImplementedException(); }
-  virtual void visitBBlock(BBlock *p){ throw NotImplementedException(); }
-  virtual void visitSEmpty(SEmpty *p){ throw NotImplementedException(); }
-  virtual void visitSBStmt(SBStmt *p){ throw NotImplementedException(); }
-  virtual void visitSDecl(SDecl *p){ throw NotImplementedException(); }
-  virtual void visitINoInit(INoInit *p){ throw NotImplementedException(); }
-  virtual void visitIInit(IInit *p){ throw NotImplementedException(); }
-  virtual void visitSAss(SAss *p){ throw NotImplementedException(); }
-  virtual void visitSIncr(SIncr *p){ throw NotImplementedException(); }
-  virtual void visitSDecr(SDecr *p){ throw NotImplementedException(); }
-  virtual void visitSRet(SRet *p){ throw NotImplementedException(); }
-  virtual void visitSVRet(SVRet *p){ throw NotImplementedException(); }
-  virtual void visitSCond(SCond *p){ throw NotImplementedException(); }
-  virtual void visitSCondElse(SCondElse *p){ throw NotImplementedException(); }
-  virtual void visitSWhile(SWhile *p){ throw NotImplementedException(); }
-  virtual void visitSSExp(SSExp *p){ throw NotImplementedException(); }
-  virtual void visitTInt(TInt *p){ throw NotImplementedException(); }
-  virtual void visitTStr(TStr *p){ throw NotImplementedException(); }
-  virtual void visitTBool(TBool *p){ throw NotImplementedException(); }
-  virtual void visitTVoid(TVoid *p){ throw NotImplementedException(); }
-  virtual void visitEVar(EVar *p){ throw NotImplementedException(); }
-  virtual void visitELitInt(ELitInt *p){ throw NotImplementedException(); }
-  virtual void visitELitTrue(ELitTrue *p){ throw NotImplementedException(); }
-  virtual void visitELitFalse(ELitFalse *p){ throw NotImplementedException(); }
-  virtual void visitEApp(EApp *p){ throw NotImplementedException(); }
-  virtual void visitEString(EString *p){ throw NotImplementedException(); }
-  virtual void visitENeg(ENeg *p){ throw NotImplementedException(); }
-  virtual void visitENot(ENot *p){ throw NotImplementedException(); }
-  virtual void visitEMul(EMul *p){ throw NotImplementedException(); }
-  virtual void visitEAdd(EAdd *p){ throw NotImplementedException(); }
-  virtual void visitERel(ERel *p){ throw NotImplementedException(); }
-  virtual void visitEAnd(EAnd *p){ throw NotImplementedException(); }
-  virtual void visitEOr(EOr *p){ throw NotImplementedException(); }
-  virtual void visitOPlus(OPlus *p){ throw NotImplementedException(); }
-  virtual void visitOMinus(OMinus *p){ throw NotImplementedException(); }
-  virtual void visitOTimes(OTimes *p){ throw NotImplementedException(); }
-  virtual void visitODiv(ODiv *p){ throw NotImplementedException(); }
-  virtual void visitOMod(OMod *p){ throw NotImplementedException(); }
-  virtual void visitOLTH(OLTH *p){ throw NotImplementedException(); }
-  virtual void visitOLE(OLE *p){ throw NotImplementedException(); }
-  virtual void visitOGTH(OGTH *p){ throw NotImplementedException(); }
-  virtual void visitOGE(OGE *p){ throw NotImplementedException(); }
-  virtual void visitOEQU(OEQU *p){ throw NotImplementedException(); }
-  virtual void visitONE(ONE *p){ throw NotImplementedException(); }
-  virtual void visitListTopDef(ListTopDef *p){ throw NotImplementedException(); }
-  virtual void visitListArg(ListArg *p){ throw NotImplementedException(); }
-  virtual void visitListStmt(ListStmt *p){ throw NotImplementedException(); }
-  virtual void visitListItem(ListItem *p){ throw NotImplementedException(); }
-  virtual void visitListExpr(ListExpr *p){ throw NotImplementedException(); }
+  virtual void visitProgram(Program *p __attribute__((__unused__))){ throw NotImplementedException(); }
+  virtual void visitTopDef(TopDef *p __attribute__((__unused__))){ throw NotImplementedException(); }
+  virtual void visitArg(Arg *p __attribute__((__unused__))){ throw NotImplementedException(); }
+  virtual void visitBlock(Block *p __attribute__((__unused__))){ throw NotImplementedException(); }
+  virtual void visitStmt(Stmt *p __attribute__((__unused__))){ throw NotImplementedException(); }
+  virtual void visitItem(Item *p __attribute__((__unused__))){ throw NotImplementedException(); }
+  virtual void visitType(Type *p __attribute__((__unused__))){ throw NotImplementedException(); }
+  virtual void visitExpr(Expr *p __attribute__((__unused__))){ throw NotImplementedException(); }
+  virtual void visitAddOp(AddOp *p __attribute__((__unused__))){ throw NotImplementedException(); }
+  virtual void visitMulOp(MulOp *p __attribute__((__unused__))){ throw NotImplementedException(); }
+  virtual void visitRelOp(RelOp *p __attribute__((__unused__))){ throw NotImplementedException(); }
+  virtual void visitPProg(PProg *p __attribute__((__unused__))) = 0;
+  virtual void visitTFnDef(TFnDef *p __attribute__((__unused__))){ throw NotImplementedException(); }
+  virtual void visitAArg(AArg *p __attribute__((__unused__))){ throw NotImplementedException(); }
+  virtual void visitBBlock(BBlock *p __attribute__((__unused__))){ throw NotImplementedException(); }
+  virtual void visitSEmpty(SEmpty *p __attribute__((__unused__))){ throw NotImplementedException(); }
+  virtual void visitSBStmt(SBStmt *p __attribute__((__unused__))){ throw NotImplementedException(); }
+  virtual void visitSDecl(SDecl *p __attribute__((__unused__))){ throw NotImplementedException(); }
+  virtual void visitINoInit(INoInit *p __attribute__((__unused__))){ throw NotImplementedException(); }
+  virtual void visitIInit(IInit *p __attribute__((__unused__))){ throw NotImplementedException(); }
+  virtual void visitSAss(SAss *p __attribute__((__unused__))){ throw NotImplementedException(); }
+  virtual void visitSIncr(SIncr *p __attribute__((__unused__))){ throw NotImplementedException(); }
+  virtual void visitSDecr(SDecr *p __attribute__((__unused__))){ throw NotImplementedException(); }
+  virtual void visitSRet(SRet *p __attribute__((__unused__))){ throw NotImplementedException(); }
+  virtual void visitSVRet(SVRet *p __attribute__((__unused__))){ throw NotImplementedException(); }
+  virtual void visitSCond(SCond *p __attribute__((__unused__))){ throw NotImplementedException(); }
+  virtual void visitSCondElse(SCondElse *p __attribute__((__unused__))){ throw NotImplementedException(); }
+  virtual void visitSWhile(SWhile *p __attribute__((__unused__))){ throw NotImplementedException(); }
+  virtual void visitSSExp(SSExp *p __attribute__((__unused__))){ throw NotImplementedException(); }
+  virtual void visitTInt(TInt *p __attribute__((__unused__))){ throw NotImplementedException(); }
+  virtual void visitTStr(TStr *p __attribute__((__unused__))){ throw NotImplementedException(); }
+  virtual void visitTBool(TBool *p __attribute__((__unused__))){ throw NotImplementedException(); }
+  virtual void visitTVoid(TVoid *p __attribute__((__unused__))){ throw NotImplementedException(); }
+  virtual void visitEVar(EVar *p __attribute__((__unused__))){ throw NotImplementedException(); }
+  virtual void visitELitInt(ELitInt *p __attribute__((__unused__))){ throw NotImplementedException(); }
+  virtual void visitELitTrue(ELitTrue *p __attribute__((__unused__))){ throw NotImplementedException(); }
+  virtual void visitELitFalse(ELitFalse *p __attribute__((__unused__))){ throw NotImplementedException(); }
+  virtual void visitEApp(EApp *p __attribute__((__unused__))){ throw NotImplementedException(); }
+  virtual void visitEString(EString *p __attribute__((__unused__))){ throw NotImplementedException(); }
+  virtual void visitENeg(ENeg *p __attribute__((__unused__))){ throw NotImplementedException(); }
+  virtual void visitENot(ENot *p __attribute__((__unused__))){ throw NotImplementedException(); }
+  virtual void visitEMul(EMul *p __attribute__((__unused__))){ throw NotImplementedException(); }
+  virtual void visitEAdd(EAdd *p __attribute__((__unused__))){ throw NotImplementedException(); }
+  virtual void visitERel(ERel *p __attribute__((__unused__))){ throw NotImplementedException(); }
+  virtual void visitEAnd(EAnd *p __attribute__((__unused__))){ throw NotImplementedException(); }
+  virtual void visitEOr(EOr *p __attribute__((__unused__))){ throw NotImplementedException(); }
+  virtual void visitOPlus(OPlus *p __attribute__((__unused__))){ throw NotImplementedException(); }
+  virtual void visitOMinus(OMinus *p __attribute__((__unused__))){ throw NotImplementedException(); }
+  virtual void visitOTimes(OTimes *p __attribute__((__unused__))){ throw NotImplementedException(); }
+  virtual void visitODiv(ODiv *p __attribute__((__unused__))){ throw NotImplementedException(); }
+  virtual void visitOMod(OMod *p __attribute__((__unused__))){ throw NotImplementedException(); }
+  virtual void visitOLTH(OLTH *p __attribute__((__unused__))){ throw NotImplementedException(); }
+  virtual void visitOLE(OLE *p __attribute__((__unused__))){ throw NotImplementedException(); }
+  virtual void visitOGTH(OGTH *p __attribute__((__unused__))){ throw NotImplementedException(); }
+  virtual void visitOGE(OGE *p __attribute__((__unused__))){ throw NotImplementedException(); }
+  virtual void visitOEQU(OEQU *p __attribute__((__unused__))){ throw NotImplementedException(); }
+  virtual void visitONE(ONE *p __attribute__((__unused__))){ throw NotImplementedException(); }
+  virtual void visitListTopDef(ListTopDef *p __attribute__((__unused__))){ throw NotImplementedException(); }
+  virtual void visitListArg(ListArg *p __attribute__((unused))){ throw NotImplementedException(); }
+  virtual void visitListStmt(ListStmt *p __attribute__((__unused__))){ throw NotImplementedException(); }
+  virtual void visitListItem(ListItem *p __attribute__((__unused__))){ throw NotImplementedException(); }
+  virtual void visitListExpr(ListExpr *p __attribute__((__unused__))){ throw NotImplementedException(); }
 
 
-  virtual void visitInteger(Integer x){ throw NotImplementedException(); }
-  virtual void visitChar(Char x){ throw NotImplementedException(); }
-  virtual void visitDouble(Double x){ throw NotImplementedException(); }
-  virtual void visitString(String x){ throw NotImplementedException(); }
-  virtual void visitIdent(Ident x){ throw NotImplementedException(); }
+  virtual void visitInteger(Integer x __attribute__((__unused__))){ throw NotImplementedException(); }
+  virtual void visitChar(Char x __attribute__((__unused__))){ throw NotImplementedException(); }
+  virtual void visitDouble(Double x __attribute__((__unused__))){ throw NotImplementedException(); }
+  virtual void visitString(String x __attribute__((__unused__))){ throw NotImplementedException(); }
+  virtual void visitIdent(Ident x __attribute__((__unused__))){ throw NotImplementedException(); }
 
 };
 

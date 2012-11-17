@@ -4,7 +4,7 @@ OBJS=main.o functions_types.o type_check.o return_check.o
 OUT=latc
 
 CPP=g++
-OPT=-g -Wall -std=c++11 -lstdc++
+OPT=-g -Wall -Werror -Wextra -std=c++11 -lstdc++
 
 all: $(OUT)
 

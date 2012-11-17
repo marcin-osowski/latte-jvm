@@ -7,7 +7,7 @@ class LatteException : public std::exception
 {
 public:
     LatteException () throw() {}
-    LatteException (const LatteException&) throw() {}
+    LatteException (const LatteException&) throw(): std::exception() {}
     LatteException& operator= (const LatteException&) throw() {return *this;}
     virtual ~LatteException() throw() {}
     virtual const char* what() const throw() = 0;
@@ -18,7 +18,7 @@ public:
     {                                       \
     public:                                 \
         NAME() throw() {}                   \
-        NAME(const NAME& ex) throw() {}     \
+        NAME(const NAME& ex __attribute__((__unused__))) throw() : LatteException() {} \
         ~NAME() throw() {}                  \
         const char* what() const throw(){   \
             return "Latte: " #NAME ;        \
@@ -30,22 +30,5 @@ LATTE_EXCEPTION(NotImplementedException);
 LATTE_EXCEPTION(IdentifierNotFoundException);
 LATTE_EXCEPTION(IdentifierRepeatedException);
 
-namespace latte_type_check
-{
-
-class TypeCheckException : public LatteException
-{
-private:
-    std::string desc;
-public:
-    TypeCheckException(int line_number, std::string _desc) throw() {
-        throw NotImplementedException();
-    }
-    ~TypeCheckException() throw(){}
-    const char* what() const throw(){
-        return desc.c_str();
-    }
-};
-};
 
 #endif //LATTE_EXCEPTIONS_H
