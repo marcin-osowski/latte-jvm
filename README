@@ -8,3 +8,8 @@ Bibliteki: Boost
 
 Aby zbudowac kompilator nalezy wykonac polecenie `make' w glownym
 katalogu projektu. Powstanie plik wykonywalny latc.
+
+Struktura katalogow:
+    lattests/    - testy z treści zadania
+    src/         - pliki zrodlowe sprawdzarki typow
+    src/parser/  - pliki zrodlowe parsera
