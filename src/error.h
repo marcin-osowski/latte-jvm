@@ -5,6 +5,11 @@
 #include <string>
 #include <sstream>
 
+/*
+ * Classes used when dealing with list of errors that
+ * can occur during check phase.
+ * */
+
 namespace latte_type_check
 {
 

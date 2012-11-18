@@ -6,6 +6,13 @@
 #include "parser/Absyn.H"
 #include "exceptions.h"
 
+/*
+ * Class representing any variable type in Latte.
+ *
+ * Special type ERROR is added to allow Latte type checker
+ * continue after first type error.
+ * */
+
 namespace latte_type_check
 {
 
@@ -60,8 +67,7 @@ public:
       case ERROR:
         return std::string("<error type>");
       default:
-        //throw InternalErrorException();
-        return std::string("<internal error>");
+        throw InternalErrorException();
     }
   }
 

@@ -4,6 +4,11 @@
 #include "functions_types.h"
 #include <iostream>
 
+/*
+ * Class performing type check on given program. Requires functions'
+ * signatures to be known before.
+ * */
+
 namespace latte_type_check
 {
 class TypeCheck : public Visitor

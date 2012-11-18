@@ -4,6 +4,10 @@
 #include "functions_types.h"
 #include <iostream>
 
+/*
+ * Class checking whether all non-void functions actually return.
+ * */
+
 namespace latte_type_check
 {
 class ReturnCheck : public Visitor

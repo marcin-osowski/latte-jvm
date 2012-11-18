@@ -3,6 +3,10 @@
 
 #include <exception>
 
+/*
+ * Custom exception classes used in Latte compiler.
+ * */
+
 class LatteException : public std::exception
 {
 public:

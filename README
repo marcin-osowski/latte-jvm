@@ -1,0 +1,10 @@
+(C) 2012 Osowski Marcin
+Implementacja kompilatora języka Latte.
+MRJP @ MIMUW
+
+Jezyk programowania: C++11
+Narzedzia: BNFC, flex, bison, make, g++
+Bibliteki: Boost
+
+Aby zbudowac kompilator nalezy wykonac polecenie `make' w glownym
+katalogu projektu. Powstanie plik wykonywalny latc.

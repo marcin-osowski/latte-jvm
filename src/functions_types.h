@@ -10,6 +10,11 @@
 #include "error.h"
 #include "type.h"
 
+/*
+ * Class that loads function signatures before actual type check
+ * can take place.
+ * */
+
 namespace latte_type_check
 {
 using namespace latte_parser;

@@ -11,38 +11,36 @@
 #include "parser/Absyn.H"
 #include "exceptions.h"
 
-template<typename T>
-class Pusher;
-
-template<typename T>
-class Environment;
-
-template<typename T>
-class Pusher
-{
-public:
-    Pusher(Pusher<T> const& rhs): env(rhs.env), counter(rhs.counter){
-    }
-    Pusher(Environment<T>& _env): env(_env), counter(new int){
-        env.push();
-    }
-    Pusher<T>& operator=(Pusher<T> const& rhs) = delete;
-    ~Pusher() {
-        if(counter.use_count() == 1)
-          env.pop();
-    }
-
-private:
-    Environment<T> &env;
-    std::shared_ptr<int> counter;
-};
+/*
+ * Abstract scope-aware environment, allowing to push
+ * current stack of key-value pairs by calling pusher()
+ * and storing the returned object untill the end of scope.
+ */
 
 template<typename T>
 class Environment
 {
 private:
     typedef std::unordered_map<std::string, T> mapT;
-    friend class Pusher<T>;
+    friend class Pusher;
+    class Pusher
+    {
+    public:
+        Pusher(Pusher const& rhs): env(rhs.env), counter(rhs.counter){
+        }
+        Pusher(Environment<T>& _env): env(_env), counter(new int){
+            env.push();
+        }
+        Pusher& operator=(Pusher const& rhs) = delete;
+        ~Pusher() {
+            if(counter.use_count() == 1)
+              env.pop();
+        }
+
+    private:
+        Environment<T> &env;
+        std::shared_ptr<int> counter;
+    };
 
 public:
     Environment(){
@@ -84,8 +82,8 @@ public:
       return outputStr;
     }
 
-    Pusher<T> pusher(){
-      return Pusher<T>(*this);
+    Pusher pusher(){
+      return Pusher(*this);
     }
 
 private:

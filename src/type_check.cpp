@@ -136,7 +136,7 @@ void TypeCheck::visitSRet(SRet *sret)
 void TypeCheck::visitSVRet(SVRet *svret)
 {
   lastLineNumber = svret->line_number;
-  expectType(VOID);
+  compareTypes(*returnType, VOID);
 }
 
 void TypeCheck::visitSCond(SCond *scond)
