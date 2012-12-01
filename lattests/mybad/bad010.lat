@@ -1,0 +1,12 @@
+string  foo(int x, int y) {
+	while(true) {
+		return "";
+	}
+}
+	
+int main() {
+  ;;;
+  string a = foo(2, 3);
+  string b = foo(5, true);
+  return 0;
+}

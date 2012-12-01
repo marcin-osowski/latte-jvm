@@ -1,0 +1,9 @@
+string  foo(int x, int y) {
+	while(true) {
+		return "";
+	}
+}
+	
+int main() { // komentarz
+  return foo(2, 3); 
+}

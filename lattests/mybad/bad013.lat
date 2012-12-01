@@ -1,0 +1,9 @@
+int  foo(int x, int y) {
+	while(x == y) {
+		return 0;
+	}
+}
+	
+int main() {
+  return foo(2, 3); 
+}

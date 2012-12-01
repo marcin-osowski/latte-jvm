@@ -1,0 +1,10 @@
+string  foo(int x, int y) {
+	while(true) {
+		return "";
+	}
+}
+	
+int main() {
+  int x = foo(2, 3);
+  return 0;
+}

@@ -1,0 +1,7 @@
+int foo(int a, string a) {
+	return 1;
+}
+
+int main() {
+	return 0;
+}
