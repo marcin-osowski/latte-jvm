@@ -1,8 +1,8 @@
 
 all:
-	make -C src latc
-	cp ./src/latc ./
+	make -C src latte-jvm
 
 clean:
-	rm -f latc
 	make -C src clean
+	rm -f `find lattests | grep '\.j$$'`
+	rm -f `find lattests | grep '\.class$$'`

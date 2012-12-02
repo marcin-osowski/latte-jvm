@@ -342,12 +342,12 @@ void TypeCheck::visitERel(ERel *erel)
   std::shared_ptr<LatteType> t1(lastType);
   erel->expr_2->accept(this);
 
-  //if(*t1 == BOOL){   /* TODO: allow BOOLs */
-  //  expectType(BOOL);
-  //} else {
+  if(*t1 == BOOL){
+    expectType(BOOL);
+  } else {
     expectType(INT);
     compareTypes(*t1, INT);
-  //}
+  }
   lastType.reset(new LatteType(BOOL));
   erel->type = lastType;
 }

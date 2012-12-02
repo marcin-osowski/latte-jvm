@@ -92,7 +92,7 @@ void JVMCompiler::visitSDecl(SDecl *sdecl)
 
 void JVMCompiler::visitSAss(SAss *sass)
 {
-    if(*(sass->expr_->type) == LatteType(STR)){
+    if(*(sass->expr_->type) == STR){
         /* String */
         sass->expr_->accept(this);
         stackDecrease(); emitAStore(localsEnv[sass->ident_]);
@@ -117,7 +117,7 @@ void JVMCompiler::visitSDecr(SDecr *sdecr)
 
 void JVMCompiler::visitSRet(SRet *sret)
 {
-    if(*(sret->expr_->type) == LatteType(STR)){
+    if(*(sret->expr_->type) == STR){
         /* String */
         sret->expr_->accept(this);
         stackDecrease(); emitInstr("areturn");
@@ -209,7 +209,7 @@ void JVMCompiler::visitINoInit(INoInit *inoinit)
 {
     uint16_t const local = newLocal();
     localsEnv.insert(inoinit->ident_, local);
-    if(*declType == LatteType(STR)){
+    if(*declType == STR){
         stackIncrease(); emitPushString("");
         stackDecrease(); emitAStore(local);
     }else{
@@ -222,7 +222,7 @@ void JVMCompiler::visitIInit(IInit *iinit)
 {
     uint16_t const local = newLocal();
     localsEnv.insert(iinit->ident_, local);
-    if(*declType == LatteType(STR)){
+    if(*declType == STR){
         iinit->expr_->accept(this);
         stackDecrease(); emitAStore(local);
     }else{
@@ -233,17 +233,17 @@ void JVMCompiler::visitIInit(IInit *iinit)
 
 void JVMCompiler::visitEVar(EVar *evar)
 {
-    if(*(evar->type) == LatteType(BOOL)){
+    if(*(evar->type) == BOOL){
         /* Boolean */
         stackIncrease(); emitILoad(localsEnv[evar->ident_]);
         stackDecrease(); emitConditional("ifne", ifTrueLabel, ifFalseLabel);
     }else{
-        if(*(evar->type) == LatteType(STR)){
+        if(*(evar->type) == STR){
             /* String */
             stackIncrease(); emitALoad(localsEnv[evar->ident_]);
         }else{
             /* Integer */
-            assert(*(evar->type) == LatteType(INT));
+            assert(*(evar->type) == INT);
             stackIncrease(); emitILoad(localsEnv[evar->ident_]);
         }
     }
@@ -280,7 +280,7 @@ void JVMCompiler::visitEApp(EApp *eapp)
         stackIncrease();
     emitInstr("invokestatic LatteProgram/" + eapp->ident_ + funTypes[eapp->ident_]->toJVMType());
 
-    if(*(eapp->type) == LatteType(BOOL)){
+    if(*(eapp->type) == BOOL){
         stackDecrease(); emitConditional("ifne", ifTrue, ifFalse);
     }
 }
@@ -311,7 +311,7 @@ void JVMCompiler::visitEMul(EMul *emul)
 
 void JVMCompiler::visitEAdd(EAdd *eadd)
 {
-    if(dynamic_cast<OPlus*>(eadd->addop_) != 0 && (*(eadd->expr_1->type) == LatteType(STR))){
+    if(dynamic_cast<OPlus*>(eadd->addop_) != 0 && (*(eadd->expr_1->type) == STR)){
         /* String concatenation */
         eadd->expr_2->accept(this);
         eadd->expr_1->accept(this);
@@ -319,7 +319,7 @@ void JVMCompiler::visitEAdd(EAdd *eadd)
         emitInstr("invokevirtual java/lang/String/concat(Ljava/lang/String;)Ljava/lang/String;");
     }else{
         /* Integer operation */
-        assert(*(eadd->expr_1->type) == LatteType(INT));
+        assert(*(eadd->expr_1->type) == INT);
         eadd->expr_1->accept(this);
         eadd->expr_2->accept(this);
         eadd->addop_->accept(this);
@@ -467,7 +467,7 @@ void JVMCompiler::visitListItem(ListItem* listitem)
 
 void JVMCompiler::pushAsValue(Expr* e)
 {
-    if(*(e->type) == LatteType(BOOL)){
+    if(*(e->type) == BOOL){
         /* Boolean */
         uint16_t const ifTrue = newLabel();
         uint16_t const ifFalse = newLabel();

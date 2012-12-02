@@ -1,0 +1,6 @@
+#!/bin/bash -e
+
+# TODO: add info about running `make`
+
+src/latte-jvm $1
+
