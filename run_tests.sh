@@ -4,11 +4,27 @@ set -e
 
 make
 
+rm -f `find lattests | grep '\.j$'`
+rm -f `find lattests | grep '\.class$'`
+
+
 echo ">>GOOD<<"
 echo
 for i in lattests/good/core???.lat; do
     echo $i
+    CLASS=$(echo $i | sed -e 's/\.lat//' | sed -e 's%/%.%g')
+    OUTPUT=$(echo $i | sed -e 's/\.lat$/.output/')
+    INPUT=$(echo $i | sed -e 's/\.lat$/.input/')
+    TMP=$(mktemp)
     ./latc $i
+    if [ -e $INPUT ]; then
+         java $CLASS > $TMP < $INPUT
+    else
+         java $CLASS > $TMP
+    fi
+    diff -u $OUTPUT $TMP
+    echo Output OK.
+    rm -f $TMP
 done
 
 

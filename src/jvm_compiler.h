@@ -18,9 +18,10 @@ using namespace latte_type_check;
 class JVMCompiler : public Visitor
 {
 public:
-  JVMCompiler(std::ostream* _output, FunTypesEnv _funTypes)
-            : output(_output), funTypes(_funTypes){
-  }
+  JVMCompiler(std::string const& _class_name,
+              std::shared_ptr<std::ostream> _output,
+              FunTypesEnv const& _funTypes)
+                    : class_name(_class_name), output(_output), funTypes(_funTypes){ }
   void visitPProg(PProg* p);
   void visitTFnDef(TFnDef* p);
   void visitAArg(AArg* p);
@@ -85,12 +86,14 @@ private:
   void emitIInc(uint16_t var, int delta);
   void emitPushInt(int const num);
   void emitPushString(std::string const& str);
+  void emitPushLineFromStdin();
   std::string printLabel(uint32_t label);
   void emitLabel(uint32_t label);
   uint16_t newLocal();
   uint32_t newLabel();
 private:
-  std::ostream* output;
+  std::string class_name;
+  std::shared_ptr<std::ostream> output;
   FunTypesEnv funTypes;
   uint32_t labels_count;
   uint16_t current_stack;

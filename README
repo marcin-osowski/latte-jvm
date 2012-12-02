@@ -1,17 +1,18 @@
 (C) 2012 Osowski Marcin
-Implementacja kompilatora języka Latte.
 MRJP @ MIMUW
+Implementacja kompilatora języka Latte z wyjsciem
+w postaci byte-codu JVM.
 
 Jezyk programowania: C++11
-Narzedzia: BNFC, flex, bison, make, g++
+Narzedzia: BNFC, flex, bison, make, g++, jasmin
 Bibliteki: Boost
 
 Aby zbudowac kompilator nalezy wykonac polecenie `make' w glownym
-katalogu projektu. Powstanie plik wykonywalny latc.
+katalogu projektu. Kompilator uruchamia sie poprzez skrypt ./latc
 
 Struktura katalogow:
     lattests/    - testy z treści zadania
-    src/         - pliki zrodlowe sprawdzarki typow
+    src/         - pliki zrodlowe kompilatora
     src/parser/  - pliki zrodlowe parsera
-
+    lib/         - assembler JVM Jasmin
 

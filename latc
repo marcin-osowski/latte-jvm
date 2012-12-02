@@ -1,6 +1,18 @@
 #!/bin/bash -e
 
-# TODO: add info about running `make`
+if [ ! -x "src/latte-jvm" ]; then
+    echo ERROR 1>&2
+    echo "Please run \`make' first"
+    exit 1
+fi
 
-src/latte-jvm $1
+if [ -z "$1" ]; then
+    echo ERROR 1>&2
+    echo "Please provide *.lat file to compile"
+    exit 1
+fi
+
+src/latte-jvm "$1"
+JASMIN_INPUT=$(echo "$1" | sed -e 's/\.lat$/.j/')
+java -jar lib/jasmin.jar "$JASMIN_INPUT"
 

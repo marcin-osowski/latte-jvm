@@ -9,19 +9,42 @@ namespace latte_compile
 void JVMCompiler::visitPProg(PProg *pprog)
 {
     emit(";");
-    emit("; Compiled with latc: latte to JVM compiler - (C) 2012 Osowski Marcin");
+    emit("; Compiled with latc: latte to JVM compiler");
+    emit("; (C) 2012 Osowski Marcin");
     emit(";");
     emit("");
-    emit(".class public LatteProgram");
+
+    emit(".class public " + class_name);
     emit(".super java/lang/Object");
     emit("");
+
+    emit("; a Scanner for stdin input operations");
+    emit(".field public static scanner Ljava/util/Scanner;");
+    emit("");
+
+    emit("; class initializer");
+    emit(".method static public <clinit>()V");
+    emitInstr("new java/util/Scanner");
+    emitInstr("dup");
+    emitInstr("getstatic java/lang/System/in Ljava/io/InputStream;");
+    emitInstr("invokenonvirtual java/util/Scanner/<init>"
+                                    "(Ljava/io/InputStream;)V");
+    emitInstr("putstatic " + class_name + "/scanner Ljava/util/Scanner;");
+    emitInstr("return");
+    emit(".limit stack 3");
+    emit(".limit locals 0");
+    emit(".end method");
+    emit("");
+
     emit("; standard initializer");
     emit(".method public <init>()V");
     emitInstr("aload_0");
     emitInstr("invokenonvirtual java/lang/Object/<init>()V");
     emitInstr("return");
     emit(".end method");
+    emit("");
 
+    emit("; Compiled methods");
     pprog->listtopdef_->accept(this);
 }
 
@@ -35,7 +58,8 @@ void JVMCompiler::visitTFnDef(TFnDef *tfndef)
             locals_count = 1;
             inside_main = true;
         }else{
-            emit(".method public static " + tfndef->ident_ + tfndef->funType->toJVMType());
+            emit(".method public static " + tfndef->ident_ +
+                                                tfndef->funType->toJVMType());
             locals_count = 0;
             inside_main = false;
         }
@@ -45,6 +69,12 @@ void JVMCompiler::visitTFnDef(TFnDef *tfndef)
 
         tfndef->listarg_->accept(this);
         tfndef->block_->accept(this);
+
+        if(*(tfndef->funType->getReturnType()) == VOID){
+            emitInstr("return");
+        }else{
+            emitInstr("nop");
+        }
 
         emit(".limit stack ", max_stack);
         emit(".limit locals ", locals_count); 
@@ -124,7 +154,8 @@ void JVMCompiler::visitSRet(SRet *sret)
     }else{
         pushAsValue(sret->expr_);
         if(inside_main){
-            stackDecrease(); emitInstr("invokestatic java/lang/System/exit(I)V");
+            stackDecrease();
+            emitInstr("invokestatic java/lang/System/exit(I)V");
             emitInstr("return");
         }else{
             stackDecrease(); emitInstr("ireturn");
@@ -221,12 +252,13 @@ void JVMCompiler::visitINoInit(INoInit *inoinit)
 void JVMCompiler::visitIInit(IInit *iinit)
 {
     uint16_t const local = newLocal();
-    localsEnv.insert(iinit->ident_, local);
     if(*declType == STR){
         iinit->expr_->accept(this);
+        localsEnv.insert(iinit->ident_, local);
         stackDecrease(); emitAStore(local);
     }else{
         pushAsValue(iinit->expr_);
+        localsEnv.insert(iinit->ident_, local);
         stackDecrease(); emitIStore(local);
     }
 }
@@ -259,29 +291,64 @@ void JVMCompiler::visitELitTrue(ELitTrue *elittrue __attribute__((__unused__)))
     emitGoto(ifTrueLabel);
 }
 
-void JVMCompiler::visitELitFalse(ELitFalse *elitfalse __attribute__((__unused__)))
+void JVMCompiler::visitELitFalse(
+            ELitFalse *elitfalse __attribute__((__unused__)))
 {
     emitGoto(ifFalseLabel);
 }
 
 void JVMCompiler::visitEApp(EApp *eapp)
 {
-    /* TODO case name of {predefined functions} */
-    uint16_t const ifTrue = ifTrueLabel;
-    uint16_t const ifFalse = ifFalseLabel;
-
-    for(auto i = eapp->listexpr_->begin(); i != eapp->listexpr_->end(); ++i) {
-        pushAsValue(*i);
-    }
-    for(auto i = eapp->listexpr_->begin(); i != eapp->listexpr_->end(); ++i) {
-        stackDecrease();
-    }
-    if(*(eapp->type) != LatteType(VOID))
+    if(eapp->ident_ == "printInt"){
         stackIncrease();
-    emitInstr("invokestatic LatteProgram/" + eapp->ident_ + funTypes[eapp->ident_]->toJVMType());
+        emitInstr("getstatic java/lang/System/out Ljava/io/PrintStream;");
+        (*(eapp->listexpr_))[0]->accept(this);
+        stackDecrease(); stackDecrease();
+        emitInstr("invokevirtual java/io/PrintStream/println(I)V");
 
-    if(*(eapp->type) == BOOL){
-        stackDecrease(); emitConditional("ifne", ifTrue, ifFalse);
+    }else if(eapp->ident_ == "printString"){
+        stackIncrease();
+        emitInstr("getstatic java/lang/System/out Ljava/io/PrintStream;");
+        (*(eapp->listexpr_))[0]->accept(this);
+        stackDecrease(); stackDecrease();
+        emitInstr(
+            "invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V");
+
+    }else if(eapp->ident_ == "error"){
+        stackIncrease();
+        emitInstr(
+            "invokestatic java/lang/Runtime/getRuntime()Ljava/lang/Runtime;");
+        stackIncrease();
+        emitPushInt(1);
+        stackDecrease(); stackDecrease();
+        emitInstr("invokevirtual java/lang/Runtime/halt(I)V");
+
+    }else if(eapp->ident_ == "readInt"){
+        emitPushLineFromStdin();
+        emitInstr(
+            "invokestatic java/lang/Integer.parseInt(Ljava/lang/String;)I");
+
+    }else if(eapp->ident_ == "readString"){
+        emitPushLineFromStdin();
+
+    }else {
+        uint16_t const ifTrue = ifTrueLabel;
+        uint16_t const ifFalse = ifFalseLabel;
+
+        for(auto i=eapp->listexpr_->begin(); i!=eapp->listexpr_->end(); ++i) {
+            pushAsValue(*i);
+        }
+        for(auto i=eapp->listexpr_->begin(); i!=eapp->listexpr_->end(); ++i) {
+            stackDecrease();
+        }
+        if(*(eapp->type) != LatteType(VOID))
+            stackIncrease();
+        emitInstr("invokestatic " + class_name + "/" +
+                     eapp->ident_ + funTypes[eapp->ident_]->toJVMType());
+
+        if(*(eapp->type) == BOOL){
+            stackDecrease(); emitConditional("ifne", ifTrue, ifFalse);
+        }
     }
 }
 
@@ -311,12 +378,14 @@ void JVMCompiler::visitEMul(EMul *emul)
 
 void JVMCompiler::visitEAdd(EAdd *eadd)
 {
-    if(dynamic_cast<OPlus*>(eadd->addop_) != 0 && (*(eadd->expr_1->type) == STR)){
+    if(dynamic_cast<OPlus*>(eadd->addop_) != 0
+            && (*(eadd->expr_1->type) == STR)){
         /* String concatenation */
-        eadd->expr_2->accept(this);
         eadd->expr_1->accept(this);
+        eadd->expr_2->accept(this);
         stackDecrease();
-        emitInstr("invokevirtual java/lang/String/concat(Ljava/lang/String;)Ljava/lang/String;");
+        emitInstr("invokevirtual java/lang/String/concat"
+                        "(Ljava/lang/String;)Ljava/lang/String;");
     }else{
         /* Integer operation */
         assert(*(eadd->expr_1->type) == INT);
@@ -435,32 +504,28 @@ void JVMCompiler::visitONE(ONE *p __attribute__((__unused__)))
 
 void JVMCompiler::visitListTopDef(ListTopDef* listtopdef)
 {
-  for (ListTopDef::iterator i = listtopdef->begin() ; i != listtopdef->end() ; ++i)
-  {
+  for (auto i=listtopdef->begin() ; i!=listtopdef->end() ; ++i) {
     (*i)->accept(this);
   }
 }
 
 void JVMCompiler::visitListArg(ListArg* listarg)
 {
-  for (ListArg::iterator i = listarg->begin() ; i != listarg->end() ; ++i)
-  {
+  for (auto i=listarg->begin(); i!=listarg->end(); ++i) {
     (*i)->accept(this);
   }
 }
 
 void JVMCompiler::visitListStmt(ListStmt* liststmt)
 {
-  for (ListStmt::iterator i = liststmt->begin() ; i != liststmt->end() ; ++i)
-  {
+  for (auto i = liststmt->begin(); i!=liststmt->end(); ++i) {
     (*i)->accept(this);
   }
 }
 
 void JVMCompiler::visitListItem(ListItem* listitem)
 {
-  for (ListItem::iterator i = listitem->begin() ; i != listitem->end() ; ++i)
-  {
+  for (auto i=listitem->begin(); i!=listitem->end(); ++i) {
     (*i)->accept(this);
   }
 }
@@ -562,7 +627,10 @@ void JVMCompiler::emitGoto(uint32_t label)
     emitInstr("goto " + printLabel(label));
 }
 
-void JVMCompiler::emitConditional(std::string const& instr, uint32_t lab1, uint32_t lab2)
+void JVMCompiler::emitConditional(
+            std::string const& instr,
+            uint32_t lab1,
+            uint32_t lab2)
 {
     std::stringstream s;
     s << instr << " " << printLabel(lab1);
@@ -573,13 +641,15 @@ void JVMCompiler::emitConditional(std::string const& instr, uint32_t lab1, uint3
 void JVMCompiler::emitIInc(uint16_t var, int delta)
 {
     std::stringstream s;
-    s << "iinc " << var << ", " << delta << "\n";
+    s << "iinc " << var << " " << delta << "\n";
     emitInstr(s.str());
 }
 
 void JVMCompiler::emitPushInt(int const num)
 {
-    if(num <= 127 && num >= -128)
+    if(num <= 5 && num >= -1)
+        emitInstr("iconst_", num);
+    else if(num <= 127 && num >= -128)
         emitInstr("bipush ", num);
     else if(num <= 32767 && num >= -32768)
         emitInstr("sipush ", num);
@@ -600,6 +670,13 @@ void JVMCompiler::emitPushString(std::string const& str)
     }
     instr << "\"";
     emitInstr(instr.str());
+}
+
+void JVMCompiler::emitPushLineFromStdin()
+{
+    stackIncrease();
+    emitInstr("getstatic " + class_name + "/scanner Ljava/util/Scanner;");
+    emitInstr("invokevirtual java/util/Scanner/nextLine()Ljava/lang/String;");
 }
 
 std::string JVMCompiler::printLabel(uint32_t label)
