@@ -13,3 +13,5 @@ Struktura katalogow:
     lattests/    - testy z treści zadania
     src/         - pliki zrodlowe sprawdzarki typow
     src/parser/  - pliki zrodlowe parsera
+
+

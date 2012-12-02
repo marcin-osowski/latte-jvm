@@ -1,5 +1,5 @@
 CC = g++
-CCFLAGS = -g
+CCFLAGS = -g -std=c++11
 FLEX = flex
 BISON = bison
 LATEX = latex

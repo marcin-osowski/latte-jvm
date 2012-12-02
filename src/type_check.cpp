@@ -68,6 +68,13 @@ void TypeCheck::visitSDecl(SDecl *sdecl)
   lastLineNumber = sdecl->line_number;
   sdecl->type_->accept(this);
   declType = lastType;
+  if(*lastType == LatteType(VOID)) {
+    err.push_back(Error(
+    lastLineNumber,
+    *funcName,
+    "cannot declare void variables"));
+    lastType.reset(new LatteType(ERROR));
+  }
   sdecl->listitem_->accept(this);
 }
 
@@ -227,24 +234,28 @@ void TypeCheck::visitEVar(EVar *evar)
   lastLineNumber = evar->line_number;
   visitIdent(evar->ident_);
   TYPE_FROM_ENV(lastType, lastIdent);
+  evar->type = lastType;
 }
 
 void TypeCheck::visitELitInt(ELitInt *elitint)
 {
   lastLineNumber = elitint->line_number;
   lastType.reset(new LatteType(INT));
+  elitint->type = lastType;
 }
 
 void TypeCheck::visitELitTrue(ELitTrue *elittrue)
 {
   lastLineNumber = elittrue->line_number;
   lastType.reset(new LatteType(BOOL));
+  elittrue->type = lastType;
 }
 
 void TypeCheck::visitELitFalse(ELitFalse *elitfalse)
 {
   lastLineNumber = elitfalse->line_number;
   lastType.reset(new LatteType(BOOL));
+  elitfalse->type = lastType;
 }
 
 void TypeCheck::visitEApp(EApp *eapp)
@@ -266,12 +277,14 @@ void TypeCheck::visitEApp(EApp *eapp)
     lastType.reset(new LatteType(ERROR));
   }
 
+  eapp->type = lastType;
 }
 
 void TypeCheck::visitEString(EString *estring)
 {
   lastLineNumber = estring->line_number;
   lastType.reset(new LatteType(STR));
+  estring->type = lastType;
 }
 
 void TypeCheck::visitENeg(ENeg *eneg)
@@ -279,6 +292,7 @@ void TypeCheck::visitENeg(ENeg *eneg)
   lastLineNumber = eneg->line_number;
   eneg->expr_->accept(this);
   expectType(INT);
+  eneg->type = lastType;
 }
 
 void TypeCheck::visitENot(ENot *enot)
@@ -286,6 +300,7 @@ void TypeCheck::visitENot(ENot *enot)
   lastLineNumber = enot->line_number;
   enot->expr_->accept(this);
   expectType(BOOL);
+  enot->type = lastType;
 }
 
 void TypeCheck::visitEMul(EMul *emul)
@@ -295,7 +310,7 @@ void TypeCheck::visitEMul(EMul *emul)
   expectType(INT);
   emul->expr_2->accept(this);
   expectType(INT);
-
+  emul->type = lastType;
 }
 
 void TypeCheck::visitEAdd(EAdd *eadd)
@@ -304,17 +319,20 @@ void TypeCheck::visitEAdd(EAdd *eadd)
   eadd->expr_1->accept(this);
   std::shared_ptr<LatteType> t1 = lastType;
   eadd->addop_->accept(this);
-  std::shared_ptr<AddOp> addOp = lastAddOp;
+  AddOp* addOp = lastAddOp;
   eadd->expr_2->accept(this);
   std::shared_ptr<LatteType> t2 = lastType;
 
-  if(dynamic_cast<OPlus*>(addOp.get()) != 0 && *t1 == STR){
+  if(dynamic_cast<OPlus*>(addOp) != 0 && *t1 == STR){
     compareTypes(*t1, STR);
     compareTypes(*t2, STR);
+    lastType.reset(new LatteType(STR));
   }else{
     compareTypes(*t1, INT);
     compareTypes(*t2, INT);
+    lastType.reset(new LatteType(INT));
   }
+  eadd->type = lastType;
 }
 
 void TypeCheck::visitERel(ERel *erel)
@@ -324,13 +342,14 @@ void TypeCheck::visitERel(ERel *erel)
   std::shared_ptr<LatteType> t1(lastType);
   erel->expr_2->accept(this);
 
-  if(*t1 == BOOL){
-    expectType(BOOL);
-  } else {
+  //if(*t1 == BOOL){   /* TODO: allow BOOLs */
+  //  expectType(BOOL);
+  //} else {
     expectType(INT);
     compareTypes(*t1, INT);
-  }
+  //}
   lastType.reset(new LatteType(BOOL));
+  erel->type = lastType;
 }
 
 void TypeCheck::visitEAnd(EAnd *eand)
@@ -341,6 +360,7 @@ void TypeCheck::visitEAnd(EAnd *eand)
   eand->expr_2->accept(this);
   expectType(BOOL);
 
+  eand->type = lastType;
 }
 
 void TypeCheck::visitEOr(EOr *eor)
@@ -350,18 +370,19 @@ void TypeCheck::visitEOr(EOr *eor)
   expectType(BOOL);
   eor->expr_2->accept(this);
   expectType(BOOL);
+  eor->type = lastType;
 }
 
 void TypeCheck::visitOPlus(OPlus *oplus)
 {
   lastLineNumber = oplus->line_number;
-  lastAddOp.reset(oplus);
+  lastAddOp = oplus;
 }
 
 void TypeCheck::visitOMinus(OMinus *ominus)
 {
   lastLineNumber = ominus->line_number;
-  lastAddOp.reset(ominus);
+  lastAddOp = ominus;
 }
 
 

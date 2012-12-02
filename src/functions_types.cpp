@@ -91,6 +91,7 @@ void FunTypesLoader::visitTFnDef(TFnDef *tfndef)
   tfndef->listarg_->accept(this);
   try{
       env.insert(*lastIdent, lastFunType);
+      tfndef->funType = lastFunType;
   }catch(IdentifierRepeatedException ex){
       err.push_back(Error(tfndef->line_number, *lastIdent, "conflicing function name"));
   }

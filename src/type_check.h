@@ -73,7 +73,7 @@ private:
   std::shared_ptr<LatteType> lastType;
   std::shared_ptr<Ident> funcName;
   std::shared_ptr<LatteType> returnType;
-  std::shared_ptr<AddOp> lastAddOp;
+  AddOp* lastAddOp;
   std::vector<std::shared_ptr<LatteType>> expectedArgsType;
 };
 }

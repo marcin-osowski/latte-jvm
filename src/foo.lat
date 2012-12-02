@@ -1,0 +1,12 @@
+int main () {
+    return 1;
+}
+
+boolean f(boolean x) {
+    boolean t = f(true);
+    return true;
+}
+
+string g() {
+    return "Ala . Ma. Kota. \n\t";
+}

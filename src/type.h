@@ -70,6 +70,20 @@ public:
         throw InternalErrorException();
     }
   }
+  std::string toJVMType() const{
+    switch(type){
+      case INT:
+        return std::string("I");
+      case STR:
+        return std::string("Ljava/lang/String;");
+      case BOOL:
+        return std::string("I");
+      case VOID:
+        return std::string("V");
+      default:
+        throw InternalErrorException();
+    }
+  }
 
 private:
   TYPES type;

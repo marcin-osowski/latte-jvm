@@ -1,10 +1,11 @@
+#include "parser/Absyn.H"
+
 #ifndef LATTE_FUNCTIONS_TYPES_H
 #define LATTE_FUNCTIONS_TYPES_H
 
 #include <string>
 #include <vector>
 #include <memory>
-#include "parser/Absyn.H"
 #include "parser/Printer.H"
 #include "environment.h"
 #include "error.h"
@@ -40,7 +41,7 @@ public:
     return returnType;
   }
 
-  std::string toString(){
+  std::string toString() const{
     std::string result = returnType->toString();
     result.append("(");
     size_t i = 0;
@@ -52,6 +53,16 @@ public:
     }
     result.append(")");
     return result;
+  }
+
+  std::string toJVMType() const{
+      std::stringstream result;
+      result << "(";
+      for(auto t : arguments){
+            result << t->toJVMType();
+      }
+      result << ")" << returnType->toJVMType();
+      return result.str();
   }
 
 
