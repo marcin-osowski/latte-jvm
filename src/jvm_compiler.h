@@ -103,7 +103,6 @@ private:
   uint32_t ifTrueLabel;
   uint32_t ifFalseLabel;
   std::shared_ptr<LatteType> declType;
-  bool inside_main;
 };
 }
 

@@ -41,6 +41,17 @@ void JVMCompiler::visitPProg(PProg *pprog)
     emitInstr("aload_0");
     emitInstr("invokenonvirtual java/lang/Object/<init>()V");
     emitInstr("return");
+    emit(".limit stack 1");
+    emit(".limit locals 1");
+    emit(".end method");
+    emit("");
+    emit("; wrapper for main()I");
+    emit(".method public static main([Ljava/lang/String;)V");
+    emitInstr("invokestatic " + class_name + "/main()I");
+    emitInstr("invokestatic java/lang/System/exit(I)V");
+    emitInstr("return");
+    emit(".limit stack 1");
+    emit(".limit locals 1");
     emit(".end method");
     emit("");
 
@@ -53,16 +64,9 @@ void JVMCompiler::visitTFnDef(TFnDef *tfndef)
     {
         auto p = localsEnv.pusher();
         emit("");
-        if(tfndef->ident_ == std::string("main")){
-            emit(".method public static main([Ljava/lang/String;)V");
-            locals_count = 1;
-            inside_main = true;
-        }else{
-            emit(".method public static " + tfndef->ident_ +
-                                                tfndef->funType->toJVMType());
-            locals_count = 0;
-            inside_main = false;
-        }
+        emit(".method public static " + tfndef->ident_ +
+                                            tfndef->funType->toJVMType());
+        locals_count = 0;
         current_stack = 0;
         max_stack = 0;
         labels_count = 0;
@@ -153,13 +157,7 @@ void JVMCompiler::visitSRet(SRet *sret)
         stackDecrease(); emitInstr("areturn");
     }else{
         pushAsValue(sret->expr_);
-        if(inside_main){
-            stackDecrease();
-            emitInstr("invokestatic java/lang/System/exit(I)V");
-            emitInstr("return");
-        }else{
-            stackDecrease(); emitInstr("ireturn");
-        }
+        stackDecrease(); emitInstr("ireturn");
     }
     assert(current_stack == 0);
 }
