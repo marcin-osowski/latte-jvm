@@ -4,7 +4,7 @@ OBJS=main.o functions_types.o type_check.o return_check.o jvm_compiler.o
 OUT=latte-jvm
 
 CPP=g++
-OPT=-g -Wall -Werror -Wextra -std=c++11 -lstdc++
+OPT=-g -Wall -Wextra -std=c++11 -lstdc++
 
 all: $(OUT)
 

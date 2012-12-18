@@ -80,7 +80,7 @@ int main(const int argc, const char ** argv)
         latte_compile::JVMCompiler jvm_compiler(class_name, output, functions_types.getResultEnv());
         parse_tree->accept(&jvm_compiler);
 
-        std::cout << "Generated " << out_filename << "\n";
+        std::cout << "Generated: " << out_filename << "\n";
     }
 
     return 0;

@@ -6,7 +6,7 @@ if [ ! -x "src/latte-jvm" ]; then
     exit 1
 fi
 
-if [ -z "$1" ]; then
+if [ -z "$(echo $1 | grep '\.lat$')" ]; then
     echo ERROR 1>&2
     echo "Please provide *.lat file to compile"
     exit 1
