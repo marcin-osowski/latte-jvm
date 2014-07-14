@@ -1,7 +1,15 @@
 Latte JVM compiler
 ==================
 
-An implementation of Latte compiler with JVM output
+An implementation of Latte compiler with JVM output.
+To build the compiler please run `make` in this directory.
+The compiler can then be run via `./latc`
+
+Directories:
+    lattests/    - tests
+    src/         - compiler source files
+    src/parser/  - parser source files
+    lib/         - a JVM assembler - Jasmin
 
 Programming language: C++11
 
@@ -9,14 +17,7 @@ Tools: BNFC, flex, bison, make, g++, jasmin
 
 Libraries: Boost
 
-Aby zbudowac kompilator nalezy wykonac polecenie `make' w glownym
-katalogu projektu. Kompilator uruchamia sie poprzez skrypt ./latc
 
-Struktura katalogow:
-    lattests/    - testy z treści zadania
-    src/         - pliki zrodlowe kompilatora
-    src/parser/  - pliki zrodlowe parsera
-    lib/         - assembler JVM Jasmin
+&copy; 2012 Osowski Marcin
 
-(C) 2012 Osowski Marcin
 MRJP @ MIMUW
