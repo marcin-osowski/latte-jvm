@@ -13,7 +13,7 @@ Directories:
 
 Programming language: C++11
 
-Tools: BNFC, flex, bison, make, g++, jasmin
+Tools: BNFC, flex, bison, make, g++, Jasmin
 
 Libraries: Boost
 
